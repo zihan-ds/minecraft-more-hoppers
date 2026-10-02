@@ -1,0 +1,51 @@
+# 打 tag（v*）时自动跑测试、构建 jar，并把 jar 挂到该 tag 的 GitHub Release 上。
+# 也可以在 Actions 页面手动运行（Run workflow）：只跑测试与构建，不创建 Release。
+name: Release
+
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+
+permissions:
+  contents: write   # 创建 Release 与上传资产需要
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 设置 JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: gradle
+
+      # tag 与模组版本必须一致，否则会发布一个文件名/版本号对不上的 jar
+      - name: 校验 tag 与 mod_version 一致
+        if: github.event_name == 'push'
+        run: |
+          tag="${GITHUB_REF_NAME#v}"
+          mod="$(grep -m1 '^mod_version=' gradle.properties | cut -d= -f2)"
+          if [ "$tag" != "$mod" ]; then
+            echo "::error::tag $GITHUB_REF_NAME 与 gradle.properties 里的 mod_version=$mod 不一致，请先改版本号再打 tag"
+            exit 1
+          fi
+
+      # GameTest 需要一个已接受 EULA 的运行目录（run/ 是 .gitignore 里的，CI 上现建）
+      - name: 测试并构建
+        run: |
+          mkdir -p run/gametest
+          echo 'eula=true' > run/gametest/eula.txt
+          ./gradlew build runGameTest --console=plain
+
+      - name: 把 jar 挂到 Release
+        if: github.event_name == 'push'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1 \
+            || gh release create "$GITHUB_REF_NAME" --title "$GITHUB_REF_NAME" --generate-notes --verify-tag
+          gh release upload "$GITHUB_REF_NAME" build/libs/more-hoppers-*.jar --clobber
