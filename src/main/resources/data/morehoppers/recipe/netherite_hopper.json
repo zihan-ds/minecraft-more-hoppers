@@ -1,0 +1,9 @@
+{
+  "type": "morehoppers:no_template_smithing",
+  "base": { "item": "morehoppers:diamond_hopper" },
+  "addition": { "item": "minecraft:netherite_ingot" },
+  "result": {
+    "count": 1,
+    "id": "morehoppers:netherite_hopper"
+  }
+}

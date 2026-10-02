@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "key": {
+    "R": { "item": "minecraft:redstone" },
+    "H": { "item": "minecraft:hopper" }
+  },
+  "pattern": [
+    " R ",
+    "RHR",
+    " R "
+  ],
+  "result": {
+    "count": 1,
+    "id": "morehoppers:reverse_hopper"
+  }
+}

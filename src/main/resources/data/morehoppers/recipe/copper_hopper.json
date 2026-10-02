@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "key": {
+    "C": { "item": "minecraft:copper_ingot" },
+    "H": { "item": "minecraft:hopper" }
+  },
+  "pattern": [
+    "CCC",
+    "CHC",
+    "CCC"
+  ],
+  "result": {
+    "count": 1,
+    "id": "morehoppers:copper_hopper"
+  }
+}

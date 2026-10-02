@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "id": "morehoppers",
+  "version": "${version}",
+  "name": "More Hoppers",
+  "description": "Adds gold, diamond, netherite, copper and reverse hoppers, all built on the vanilla hopper. 在 Java 版原版漏斗基础上新增金、钻石、下界合金、铜与逆向漏斗。",
+  "authors": [
+    "zihan-ds"
+  ],
+  "contact": {
+    "homepage": "https://github.com/zihan-ds/minecraft-more-hoppers",
+    "sources": "https://github.com/zihan-ds/minecraft-more-hoppers"
+  },
+  "license": "MIT",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "dev.morehoppers.MoreHoppers"
+    ],
+    "client": [
+      "dev.morehoppers.client.MoreHoppersClient"
+    ],
+    "fabric-gametest": [
+      "dev.morehoppers.gametest.HopperGameTest"
+    ]
+  },
+  "mixins": [
+    {
+      "config": "more-hoppers.mixins.json"
+    }
+  ],
+  "depends": {
+    "fabricloader": ">=0.19.4",
+    "minecraft": "~1.21",
+    "java": ">=21",
+    "fabric-api": "*"
+  }
+}
