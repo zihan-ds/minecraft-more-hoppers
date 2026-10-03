@@ -31,7 +31,7 @@ param(
     [string]$ChangelogFile,
     [string]$Version,
     [ValidateSet('release', 'beta', 'alpha')][string]$ReleaseType = 'release',
-    [string[]]$GameVersionNames = @('1.21', 'Fabric'),
+    [string[]]$GameVersionNames = @('1.21', 'Fabric', 'Client', 'Server'),
     [string]$RelatedSlug = 'fabric-api',
     [string]$Token,
     [string]$TokenFile,
