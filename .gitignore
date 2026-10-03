@@ -1,3 +1,7 @@
 .gradle/
 build/
 run/
+
+# 永不入库：本地存的 API token
+.cf-token*
+*.token

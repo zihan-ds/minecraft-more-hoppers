@@ -49,3 +49,11 @@ jobs:
           gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1 \
             || gh release create "$GITHUB_REF_NAME" --title "$GITHUB_REF_NAME" --generate-notes --verify-tag
           gh release upload "$GITHUB_REF_NAME" build/libs/more-hoppers-*.jar --clobber
+
+      # CurseForge 发布：项目 ID、gameVersions(["1.21","Fabric"])、依赖 fabric-api 都由脚本处理。
+      # 没有配置 CURSEFORGE_TOKEN 时脚本只输出 warning 并正常退出，不会让 CI 变红。
+      # 手动触发本 workflow（Run workflow）也会执行这一步 —— 可用于首次补传历史版本。
+      - name: 发布到 CurseForge
+        env:
+          CURSEFORGE_TOKEN: ${{ secrets.CURSEFORGE_TOKEN }}
+        run: pwsh ./tools/publish-curseforge.ps1
